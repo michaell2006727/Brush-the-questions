@@ -1,0 +1,32 @@
+# Dependencies and generated output
+node_modules/
+target/
+dist/
+build/
+coverage/
+.cache/
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Personal question banks, originals, databases and backups
+data/
+uploads/
+backups/
+samples/private/
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Local tooling
+.idea/
+.vscode/
+Thumbs.db
+.DS_Store
+*.log
