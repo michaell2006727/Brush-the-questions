@@ -25,7 +25,9 @@ GitHub API 返回的 `main` 提交为 `17246a51fa81463b51bdedb62371f6a7e7c477d0`
 
 需要改造：文档原题提取替代生成流程、集中答案匹配及证据、OCR 的持久化任务、校对草稿、题库服务存储、统一登录、每题保存与冲突控制、模考服务器计时、版本快照、备份恢复，以及移动应用的文件选择、安全凭据、生命周期、签名安装和更新。用户已将初稿网页/PWA 交付调整为可安装应用，Tauri 客户端仍须统一使用服务器权威数据，不能保留上游本地题库作为主存储。
 
-移动构建参考 Tauri 官方的 [开发前置条件](https://v2.tauri.app/start/prerequisites/)与 [Apple 分发文档](https://v2.tauri.app/distribute/app-store/)。iOS 构建需要 macOS/Xcode；分发方案及相应签名条件待用户环境核实。本轮仅核实文档可访问，未实际构建或安装任何应用。
+按用户最新选择首版优先 Android，测试手机为已有 iQOO（型号/系统暂未知），iOS 延后。移动构建参考 Tauri 官方的 [开发前置条件](https://v2.tauri.app/start/prerequisites/)与 [Apple 分发文档](https://v2.tauri.app/distribute/app-store/)。iOS 构建需要 macOS/Xcode，但不作为安卓首版前置条件。
+
+本轮将上述上游固定提交 fetch 到当前仓库的 Git 对象库，并读取 `src-tauri/tauri.conf.json`、`src-tauri/Cargo.toml` 和文件清单，未将业务源码检出到工作区、未构建或安装应用。确认上游含 Tauri 2 依赖和 Android 图标；这些不是本项目 APK 构建成功的证据。本机 PATH 及常见路径检查发现 Java 21、Node、pnpm、Git，但未找到 Rust/cargo、adb 和默认 Android SDK；这仅表示已查路径未发现，实际构建前仍需安装或定位工具。未修改全局环境，也未安装 SDK。
 
 需要关闭：AI 生成新题、自动补答案、AI 简答判分、搜题自动回答、通用 AI 聊天和公开考试中继；不对外暴露可绕过限制的 MCP 工具。
 

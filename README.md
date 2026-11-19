@@ -1,6 +1,6 @@
 # Brush-the-questions
 
-基于 [Exameow](https://github.com/heshengtao/exameow) 规划的 Android / iOS 可安装刷题应用：采用 Vue 3 + Tauri 移动客户端连接个人服务器，保留文档原题和原答案，经校对后入库，两种手机登录后继续练习，按需查看 AI 讲解。iOS 构建、签名与实际安装途径需提前落实，不能以手机网页代替应用交付。
+基于 [Exameow](https://github.com/heshengtao/exameow) 规划的个人刷题应用：首版优先 Android APK，使用用户已有的 iQOO 真机测试，iOS 后续支持。采用 Vue 3 + Tauri 移动客户端连接个人服务器，保留文档原题和原答案，经校对后入库，保存进度并按需查看 AI 讲解，不能以手机网页代替应用交付。
 
 **当前阶段：需求评审。仓库仅有文档与 Git 配置，尚未引入 Exameow 源码、实现业务或部署服务。**
 
@@ -14,7 +14,7 @@
 - `origin`：`https://github.com/michaell2006727/Brush-the-questions.git`
 - `upstream`：`https://github.com/heshengtao/exameow.git`（仅登记地址，尚未导入上游历史）
 
-本轮在 `codex/project-prd` 分支准备文档。空仓库尚无 `main` 基线，后续由用户决定首次发布和主分支初始化方式。
+初稿在 `codex/project-prd` 分支准备，安卓优先调整位于 `codex/android-first`。空仓库尚无 `main` 基线，后续由用户决定首次发布和主分支初始化方式。
 
 ## 上游与许可证
 
