@@ -1,6 +1,6 @@
 # Brush-the-questions
 
-基于 [Exameow](https://github.com/heshengtao/exameow) 规划的个人手机刷题网页：保留文档原题和原答案，经校对后入库，在安卓和 iPhone 登录同一服务器继续练习，按需查看 AI 讲解。
+基于 [Exameow](https://github.com/heshengtao/exameow) 规划的 Android / iOS 可安装刷题应用：采用 Vue 3 + Tauri 移动客户端连接个人服务器，保留文档原题和原答案，经校对后入库，两种手机登录后继续练习，按需查看 AI 讲解。iOS 构建、签名与实际安装途径需提前落实，不能以手机网页代替应用交付。
 
 **当前阶段：需求评审。仓库仅有文档与 Git 配置，尚未引入 Exameow 源码、实现业务或部署服务。**
 
