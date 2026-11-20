@@ -1,0 +1,16 @@
+{
+  "rust": "1.99.1",
+  "rustHost": "x86_64-pc-windows-msvc",
+  "rustTarget": "aarch64-linux-android",
+  "pnpm": "10.34.9",
+  "tauriCli": "2.11.4",
+  "gradle": "8.14.3",
+  "gradleSha256": "bd71102213493060956ec229d946beee57158dbd89d0e62b91bca0fa2c5f3531",
+  "androidApi": 36,
+  "androidBuildTools": "36.0.0",
+  "androidGradlePlugin": "8.11.0",
+  "androidGradleDefaultBuildTools": "35.0.0",
+  "androidNdk": "27.0.12077973",
+  "androidCommandLineTools": "23.0",
+  "upstreamCommit": "17246a51fa81463b51bdedb62371f6a7e7c477d0"
+}

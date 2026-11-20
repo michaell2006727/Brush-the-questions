@@ -12,6 +12,9 @@ coverage/
 !.env.example
 *.pem
 *.key
+*.jks
+*.keystore
+local.properties
 
 # Personal question banks, originals, databases and backups
 data/
