@@ -1,0 +1,7 @@
+{
+  "javaHome": "C:/Program Files/Java/jdk-21",
+  "rustVersion": "1.99.1",
+  "ndkVersion": "27.0.12077973",
+  "androidApi": 36,
+  "buildTools": "36.0.0"
+}

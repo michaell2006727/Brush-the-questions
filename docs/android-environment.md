@@ -17,6 +17,19 @@
 
 环境配置位于已忽略的 `build/environment.json`，当前复用本机 `D:\应用` 的完整 JDK 21。工具版本记录在 [android-toolchain.json](../config/android-toolchain.json)，Rust 另由根目录 [rust-toolchain.toml](../rust-toolchain.toml) 固定。
 
+## GitHub 保存范围与新机器准备
+
+GitHub 保存环境脚本、工具版本清单、Rust 配置、最小 Tauri 检查工程的依赖锁文件、环境配置示例及本文档。SDK/NDK、JDK/MSVC、Rust 安装目录、下载件、缓存、日志和测试 APK 保留在本机已忽略的 `build/` 或原安装位置，不作为 Git 源文件上传；签名密钥、账号凭据和私人数据不上传。
+
+换到新机器时，按版本表及官方来源重新安装或定位工具，再将配置示例复制为本机配置，并修改 `javaHome` 为实际 JDK 目录：
+
+```powershell
+New-Item -ItemType Directory -Path build -Force
+Copy-Item -LiteralPath config/environment.example.json -Destination build/environment.json
+```
+
+已有本机配置时不要直接覆盖。其余工具按本说明放置到 `build/tools` 对应目录；完成 Windows 开发者模式设置后，依次执行环境激活、`check-env.ps1`、`smoke-env.ps1` 和 `smoke-tauri.ps1`。克隆代码仓库不会自动安装这些外部工具。
+
 ## 目录与版本
 
 | 工具 | 版本 / 位置 | 当前结果 |
@@ -110,4 +123,6 @@ SQLite 随未来 Rust 后端实现引入，不需要为本轮单独创建公网�
 
 ## Git 交付状态
 
-环境脚本、版本配置与本说明已提交到本地 `codex/android-environment`，没有推送或合并 `main`。推送时 Git Credential Manager 等待认证；核查现有 GitHub CLI 登录账号对目标仓库只有 `READ` 权限，已中断此次等待认证的推送。需要具备目标仓库写权限的账号完成认证后再推送；不能把本地提交描述为 GitHub 已同步。
+环境脚本、版本配置、配置示例与本说明通过目标仓库的 `codex/android-environment` 分支保存，不推送或合并 `main`。此前 GitHub CLI 默认账号只有 `READ` 权限，Git 推送等待认证；本次已发现 Git Credential Manager 中保存的个人账号 `michaell2006727`，通过单次指定该账号完成写入权限校验，未切换其他项目使用的默认账号。
+
+上传内容不包含本机安装工具、缓存、测试 APK、签名密钥和私人资料。完整环境的可重复性依靠版本清单、配置示例、官方安装来源及实际编译检查共同确认，不依靠上传整个工具安装目录。
