@@ -89,3 +89,7 @@ adb devices
 Command-line Tools ZIP 按 Google 包清单 SHA-1 `57d04f2d75eb8e8fffc5000a987e5de4b5a63e9d` 校验；rustup-init 按官方 `.sha256` 校验，Rust 组件由 rustup 管理。Gradle ZIP 已与官方 `.sha256` 对照，摘要记录在版本配置中。SDK/NDK 通过 Google Android CLI 安装稳定包，没有使用随机第三方打包工具。下载时个别请求遇到 Windows 证书吊销服务离线，使用 curl 的 `--ssl-revoke-best-effort` 重试，未禁用 TLS 证书验证。
 
 SQLite 随未来 Rust 后端实现引入，不需要为本轮单独创建公网数据库、生产账号或真实 Key。暂未安装 Android Studio、模拟器或 Docker；当前以命令行工具和后续 iQOO 真机为路线，服务端部署环境另行建立。
+
+## Git 交付状态
+
+环境脚本、版本配置与本说明已提交到本地 `codex/android-environment`，没有推送或合并 `main`。推送时 Git Credential Manager 等待认证；核查现有 GitHub CLI 登录账号对目标仓库只有 `READ` 权限，已中断此次等待认证的推送。需要具备目标仓库写权限的账号完成认证后再推送；不能把本地提交描述为 GitHub 已同步。
