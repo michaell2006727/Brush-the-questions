@@ -15,7 +15,16 @@
 - `origin`：`https://github.com/michaell2006727/Brush-the-questions.git`
 - `upstream`：`https://github.com/heshengtao/exameow.git`（已 fetch 固定提交供核查；尚未合并上游历史或检出业务源码）
 
-初稿在 `codex/project-prd` 分支准备，安卓优先调整位于 `codex/android-first`，本机工具链和环境脚本位于 `codex/android-environment`。空仓库尚无 `main` 基线，后续由用户决定首次发布和主分支初始化方式。
+按用户要求，GitHub 和本地分支统一使用中文名称：
+
+| 分支 | 用途 | 保存位置 |
+|---|---|---|
+| `安卓环境搭建与验证` | 当前完整文档、环境配置与验证脚本；GitHub 默认分支 | GitHub 与本地 |
+| `安卓首版需求` | 优先交付 Android、以 iQOO 验收的需求调整快照 | 仅本地 |
+| `产品需求文档` | 项目早期 PRD 与协作规范快照 | 仅本地 |
+| `前端` | 用户已有的中文分支，保留原名和提交；目前没有刷题业务实现 | 仅本地 |
+
+尚未单独建立正式主分支，后续由用户决定发布及主分支初始化方式。新分支也使用能直接说明用途的中文名称。
 
 ## 上游与许可证
 
