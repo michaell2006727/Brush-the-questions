@@ -14,7 +14,7 @@
 - `origin`：`https://github.com/michaell2006727/Brush-the-questions.git`
 - `upstream`：`https://github.com/heshengtao/exameow.git`（已 fetch 固定提交供核查；尚未合并上游历史或检出业务源码）
 
-当前 GitHub 默认分支为 `安卓环境搭建与验证`。所有新分支使用能说明用途的中文名称；尚未单独建立正式主分支。
+正式主分支固定为 `main`，也是 GitHub 默认分支，本地和 GitHub 均保留。除 `main` 外，其他分支全部使用能说明用途的中文名称；当前环境功能分支为 `安卓环境搭建与验证`。功能修改通过独立分支提交，由用户决定合并到 `main`。
 
 ## 上游与许可证
 
