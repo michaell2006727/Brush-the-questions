@@ -1,6 +1,6 @@
 # Android 开发环境
 
-开始配置：2026-11-19；继续核查：2026-11-20。工作目录 `E:\shuati`。本轮授权为创建开发环境，不包含业务实现、真实 AI 配置、服务器部署或向手机安装应用。
+开始配置：2026-11-19；验证完成：2026-11-20。工作目录 `E:\shuati`。Android 工具检查、符号链接、原生编译、最小 Tauri APK 打包及签名验证已通过。本轮授权为创建开发环境，不包含业务实现、真实 AI 配置、服务器部署或向手机安装应用。
 
 ## 使用方法
 
@@ -24,7 +24,7 @@
 | Node | 复用 v24.15.0 | 可执行 |
 | JDK | 复用完整 JDK 21.0.6 | `javac` 可用，不另装 Java |
 | pnpm | 10.34.9，`build/tools/node-tools` | 项目专用，不覆盖系统 pnpm 11 |
-| Tauri CLI | 2.11.4，`build/tools/node-tools` | 可执行，尚无业务应用工程 |
+| Tauri CLI | 2.11.4，`build/tools/node-tools` | 最小 Android 检查工程构建通过，尚无业务应用工程 |
 | Rust / Cargo | 1.99.1，`build/tools/rustup`、`build/tools/cargo` | 安装并验证，含 rustfmt / clippy |
 | Rust Android target | `aarch64-linux-android` | 安装成功，ARM64 编译链接已通过 |
 | Android CLI | Command-line Tools 23.0，`build/tools/android-sdk` | 下载并校验后安装；新版提供 `android.exe sdk` 命令 |
@@ -38,6 +38,8 @@ Rust 和 NDK 版本参考已固定 Exameow 提交的移动发布工作流，避�
 
 Tauri 检查工程的依赖锁文件在 `scripts/fixtures/tauri-smoke.Cargo.lock`，由已固定上游 Cargo.lock 为种子解析得到。实际检查曾发现“主库 2.11.5 + 自动解析的新运行库 2.12.x”编译不兼容，因此保留运行库 2.11.3 / runtime-wry 2.11.4 等上游组合；后续不要无理由删除锁文件或执行全量依赖升级。
 
+检查工程通过自己的 `package.json` 脚本使用 `pnpm tauri` 初始化和构建。直接调用外部 `tauri.cmd` 初始化曾使 Gradle 回调错误生成为 `node tauri ...`，导致找不到脚本模块；已通过标准的包管理器入口重新生成并验证，不能把旧错误回调继续用于后续工程。
+
 缓存设置：Gradle 位于 `build/cache/gradle`、Android 用户数据位于 `build/cache/android`，激活环境后的 npm 缓存位于 `build/cache/npm`。下载件和日志分别在 `build/downloads`、`build/logs`，不提交 Git。微软安装程序自身可能使用 Windows 的临时目录和系统组件目录，不能承诺 C 盘完全无写入。
 
 ## 已执行验证及其边界
@@ -46,9 +48,25 @@ Tauri 检查工程的依赖锁文件在 `scripts/fixtures/tauri-smoke.Cargo.lock
 - `scripts/smoke-env.ps1` 使用不依赖外部 crates 的微型 Rust 项目，离线编译并链接 `aarch64-linux-android` 共享库；`llvm-readelf` 确认产物为 ELF64 / AArch64 / DYN。
 - 检查脚本按是否存在 MSVC 和所需 SDK 文件判断完整性，缺项返回非零，不能仅靠部分版本命令成功来显示全部通过。
 - 2026-11-20 核查 `vswhere`：MSVC 实例 `isComplete=true`、`isLaunchable=true`、`isRebootRequired=false`。此前的 `link.exe` 缺失已解决，固定上游依赖并补齐测试图标后，Tauri 原生库编译通过。
-- APK 打包仍需验证：最新实际阻塞为 Windows Developer Mode 关闭导致不能创建符号链接。检查脚本已加入真实符号链接创建/读取检查，不能仅凭版本命令成功来放行。未连接 iQOO，未完成手机安装和应用验收。
+- 用户于 2026-11-20 手动开启 Windows Developer Mode，读取注册表值为 1，真实符号链接创建/读取检查已通过；此前的符号链接阻塞已解决。
+- 最小 Tauri 工程已构建出 APK；`apksigner verify --verbose` 返回 `Verifies`，APK v2 签名验证通过，签名者数量为 1。`aapt2 dump badging` 核对包名、版本、target SDK 与 ARM64 原生库内容。未连接 iQOO，未完成手机安装和应用验收。
 
 编译检查源文件、产物和 Cargo 缓存位于 `build/environment-smoke` 与 `build/cache/rust-smoke`，不属于产品功能或测试题库。
+
+### 实际测试 APK
+
+| 项目 | 结果 |
+|---|---|
+| 路径 | `build/tauri-environment-check/src-tauri/gen/android/app/build/outputs/apk/universal/debug/app-universal-debug.apk` |
+| 包名 | `com.brushquestions.environmentcheck` |
+| 版本 | `0.0.1`，versionCode 1 |
+| target SDK / compile SDK | 36 / 36 |
+| APK 实际原生 ABI | 仅 `arm64-v8a`，以 aapt2 输出为准；文件名中的 universal 不表示包含全部 CPU 架构 |
+| 大小 | 131,988,265 字节，调试包 |
+| SHA-256 | `E9FD51CBDDFF68A7A7052DC5E52B0239F4F16C8C8EB7CD97782341193539EC56` |
+| 签名 | Android 调试签名，APK Signature Scheme v2 验证通过 |
+
+该包仅显示环境检查页面，不含题库、登录、AI 或任何刷题业务；未安装到手机。后续重建可能改变 APK 哈希，需重新记录实际文件和验证结果。
 
 ## Windows 安装与权限记录
 
@@ -58,13 +76,13 @@ Tauri 检查工程的依赖锁文件在 `scripts/fixtures/tauri-smoke.Cargo.lock
 
 Tauri Android 打包会创建 `.so` 符号链接，当前 E 盘为 NTFS，但 Windows Developer Mode 原值为 0。已准备 `scripts/enable-windows-devmode.ps1`，通过管理员确认后按 [微软官方方法](https://learn.microsoft.com/en-us/windows/advanced-settings/developer-mode) 仅将 `AllowDevelopmentWithoutDevLicense` 设为 1；脚本成功运行时会先把原值备份到已忽略的 `build/windows-devmode-before.json`。不启用 Device Portal、Device Discovery 或远程调试，不自动重启。
 
-2026-11-20 的管理员启动返回“操作已被用户取消”；再次读取注册表仍为 0，脚本未执行、未生成原值备份，没有重复发起提权。当前 APK 打包仍被这一项阻塞。用户可在 Windows“设置 → 系统 → 高级 → 开发者选项”打开“开发者模式”（较旧系统为“为开发者”页面），或自行在管理员 PowerShell 运行：
+2026-11-20 最初的管理员启动返回“操作已被用户取消”；用户反馈没有看到提示。该脚本未执行、未生成原值备份，也没有重复发起提权。随后用户通过 Windows 设置手动开启开发者模式，已验证值为 1 且普通终端可创建符号链接。后续重新配置机器时，可在 Windows“设置 → 系统 → 高级 → 开发者选项”打开“开发者模式”（较旧系统为“为开发者”页面），或自行在管理员 PowerShell 运行：
 
 ```powershell
 & E:/shuati/scripts/enable-windows-devmode.ps1
 ```
 
-设置生效后，在普通项目 PowerShell 重新运行 `check-env.ps1` 和 `smoke-tauri.ps1`。目前只确认工具安装和 Rust 原生库编译；没有生成测试 APK，也没有产品 APK。不得把脚本已准备或原生编译成功视为 APK 打包通过。
+设置生效后，在普通项目 PowerShell 重新运行 `check-env.ps1` 和 `smoke-tauri.ps1`。本机现已通过环境检查、Rust 原生库编译、最小 APK 打包及签名验证，结果见上表；没有产品 APK。后续验收仍须区分环境检查、APK 打包、手机安装和业务验证。
 
 ## iQOO 连接时再做
 

@@ -2,7 +2,7 @@
 
 基于 [Exameow](https://github.com/heshengtao/exameow) 规划的个人刷题应用：首版优先 Android APK，使用用户已有的 iQOO 真机测试，iOS 后续支持。采用 Vue 3 + Tauri 移动客户端连接个人服务器，保留文档原题和原答案，经校对后入库，保存进度并按需查看 AI 讲解，不能以手机网页代替应用交付。
 
-**当前阶段：需求评审与 Android 开发环境验证。Rust、JDK、Android SDK/NDK、MSVC 已安装，原生库编译通过；Windows 开发者模式未启用，完整 APK 打包验证尚未通过。尚未引入 Exameow 业务源码、生成产品 APK 或部署服务。**
+**当前阶段：需求评审与 Android 开发环境准备已完成。工具、符号链接、ARM64 原生编译、最小 Tauri APK 打包及签名验证均通过。测试 APK 只验证环境；尚未引入 Exameow 业务源码、开发刷题功能或部署服务。**
 
 - [产品需求文档](PRD.md)：首版范围、页面、业务规则、数据与接口边界、验收清单。
 - [开发协作规范](AGENTS.md)：开发目录、分支、数据保护、AI 边界、验证和发布规则。

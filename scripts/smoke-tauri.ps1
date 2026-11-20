@@ -12,6 +12,14 @@ function Write-SmokeFile {
     [IO.File]::WriteAllText($smokeFilePath, $Content, [Text.UTF8Encoding]::new($false))
 }
 
+Write-SmokeFile 'package.json' @'
+{
+  "name": "android-environment-check",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": { "tauri": "tauri" }
+}
+'@
 Write-SmokeFile 'src-tauri/Cargo.toml' @'
 [package]
 name = "android-toolchain-check"
@@ -67,11 +75,11 @@ try {
     $env:CARGO_BUILD_JOBS = '4'
     Push-Location -LiteralPath $projectTauriSmoke
     try {
-        if (-not (Test-Path -LiteralPath 'src-tauri/gen/android/gradlew.bat')) {
-            & tauri.cmd android init --ci --skip-targets-install
-            if ($LASTEXITCODE -ne 0) { throw 'Tauri Android initialization failed' }
-        }
-        & tauri.cmd android build --debug --apk --target aarch64 --ci *> $projectTauriLog
+        # Use the package-manager entry so Gradle regenerates a valid CLI callback.
+        # This directory is an isolated generated check project, not product code.
+        & pnpm.cmd tauri android init --ci --skip-targets-install
+        if ($LASTEXITCODE -ne 0) { throw 'Tauri Android initialization failed' }
+        & pnpm.cmd tauri android build --debug --apk --target aarch64 --ci *> $projectTauriLog
         if ($LASTEXITCODE -ne 0) {
             Get-Content -LiteralPath $projectTauriLog -Tail 30
             throw "Tauri APK build failed. Log: $projectTauriLog"
